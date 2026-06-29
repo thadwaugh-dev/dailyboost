@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DailyBoost — Daily Content Ideas</title>
   <style>
-    body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a0f; color: #f0f0f5; margin: 0; padding: 40px 20px; line-height: 1.6; }
+    body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #f0f0f5; margin: 0; padding: 40px 20px; line-height: 1.6; }
     .container { max-width: 720px; margin: 0 auto; }
     h1 { text-align: center; font-size: 2.5rem; margin-bottom: 8px; }
     .tagline { text-align: center; color: #9ca3af; font-size: 1.2rem; margin-bottom: 40px; }
@@ -37,7 +37,7 @@
         <option value="Business">Small Business</option>
       </select>
       <input type="text" id="custom" placeholder="Or type your own niche...">
-      <br>
+      <br><br>
       <button onclick="generateDailyBoost()">Generate Today's Boost</button>
     </div>
 
@@ -57,25 +57,22 @@
       let niche = document.getElementById('niche').value;
       if (!niche) niche = document.getElementById('custom').value || "Your Niche";
 
-      const ideasContainer = document.getElementById('ideas');
-      ideasContainer.innerHTML = '';
+      const container = document.getElementById('ideas');
+      container.innerHTML = '';
 
       const sampleIdeas = [
-        `Strong hook for ${niche}: "The one thing nobody tells you about..."`,
-        `Quick tip: The 2-minute habit that compounds in ${niche}...`,
-        `Thread starter: "I used to believe X about ${niche}. Then I learned..."`,
-        `Value post idea: Before vs After in ${niche} (with examples)`,
-        `Question to ask your audience: "What's your biggest struggle with ${niche} right now?"`
+        `Strong opening hook for ${niche} content: "The one thing most people get wrong about..."`,
+        `Quick actionable tip: Try this 5-minute habit in ${niche}...`,
+        `Thread idea: "I changed one thing in ${niche} and it changed everything..."`,
+        `Value post: Before vs After transformation in ${niche}`,
+        `Engagement question: What's your biggest challenge with ${niche} right now?`
       ];
 
-      sampleIdeas.forEach((idea, index) => {
+      sampleIdeas.forEach((idea) => {
         const div = document.createElement('div');
         div.className = 'idea';
-        div.innerHTML = `
-          <p>${idea}</p>
-          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
-        `;
-        ideasContainer.appendChild(div);
+        div.innerHTML = `<p>${idea}</p><button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>`;
+        container.appendChild(div);
       });
 
       document.getElementById('nicheTitle').textContent = `Today's ${niche} Boost`;
@@ -84,11 +81,10 @@
 
     function copyToClipboard(btn) {
       const text = btn.parentElement.querySelector('p').textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        const original = btn.textContent;
-        btn.textContent = 'Copied!';
-        setTimeout(() => btn.textContent = original, 2000);
-      });
+      navigator.clipboard.writeText(text);
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = original, 1800);
     }
   </script>
 </body>
