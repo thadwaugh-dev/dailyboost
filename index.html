@@ -9,7 +9,7 @@
     .container { max-width: 720px; margin: 0 auto; }
     h1 { text-align: center; font-size: 2.8rem; margin-bottom: 8px; background: linear-gradient(90deg, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .tagline { text-align: center; color: #9ca3af; font-size: 1.25rem; margin-bottom: 40px; }
-    .controls { text-align: center; margin-bottom: 40px; }
+    .controls { text-align: center; margin-bottom: 30px; }
     select, input { padding: 16px 20px; font-size: 1.1rem; border-radius: 12px; background: #1f2937; border: 2px solid #4b5563; color: white; width: 340px; margin: 8px; }
     button { padding: 16px 36px; font-size: 1.1rem; background: #6366f1; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; margin: 8px; }
     button:hover { background: #818cf8; transform: translateY(-1px); }
@@ -18,8 +18,8 @@
     .idea { background: #374151; padding: 20px; margin: 16px 0; border-radius: 12px; position: relative; border-left: 4px solid #6366f1; }
     .copy-btn { position: absolute; top: 14px; right: 14px; padding: 6px 14px; background: #4b5563; border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
     .copy-all { background: #22c55e; margin: 20px auto 30px; display: block; width: fit-content; }
-    .pro-cta { text-align: center; margin: 50px 0 20px; padding: 32px; background: linear-gradient(135deg, #1e2937, #334155); border-radius: 16px; }
-    .pro-cta a { background: #22c55e; color: #0f172a; padding: 16px 40px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.15rem; }
+    .pro-cta { text-align: center; margin: 30px 0; padding: 24px; background: linear-gradient(135deg, #1e2937, #334155); border-radius: 16px; }
+    .pro-cta a { background: #22c55e; color: #0f172a; padding: 14px 36px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
   </style>
 </head>
 <body>
@@ -43,15 +43,16 @@
       <button onclick="generateDailyBoost()">Generate Today's Boost</button>
     </div>
 
+    <!-- Prominent Pro CTA - always visible -->
+    <div class="pro-cta">
+      <p><strong>Ready for unlimited daily boosts + more features?</strong></p>
+      <a href="https://thadventure8.gumroad.com/l/dailyboost-pro" target="_blank">Get DailyBoost Pro →</a>
+    </div>
+
     <div id="results" class="results">
       <h2 id="nicheTitle"></h2>
       <button class="copy-btn copy-all" onclick="copyAll()">Copy All Ideas</button>
       <div id="ideas"></div>
-      
-      <div class="pro-cta">
-        <p>Ready for unlimited daily boosts + more features?</p>
-        <a href="https://thadventure8.gumroad.com/l/dailyboost-pro" target="_blank">Get DailyBoost Pro →</a>
-      </div>
     </div>
   </div>
 
@@ -67,7 +68,7 @@
         `Strong hook for ${niche}: "The one thing most people get wrong about..."`,
         `Quick tip: The 5-minute ${niche} habit that actually compounds...`,
         `Thread idea: "I changed one thing in ${niche} and the results surprised me..."`,
-        `Value post: Before vs After transformation in ${niche}`,
+        `Value post idea: Before vs After transformation in ${niche}`,
         `Engagement question: What's your biggest challenge with ${niche} right now?`,
         `Hot take for ${niche}: "You don't need more tools — you need this mindset shift..."`,
         `Weekend reminder for ${niche} creators: Rest is part of the strategy...`
@@ -95,7 +96,7 @@
     function copyAll() {
       const ideas = Array.from(document.querySelectorAll('.idea p')).map(p => p.textContent).join('\n\n---\n\n');
       navigator.clipboard.writeText(ideas);
-      alert('All ideas copied!');
+      alert('All ideas copied to clipboard!');
     }
   </script>
 </body>
