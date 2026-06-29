@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DailyBoost — Daily Content Ideas</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0a0a0f; color: #f0f0f5; margin: 0; padding: 40px 20px; line-height: 1.6; }
+    .container { max-width: 720px; margin: 0 auto; }
+    h1 { text-align: center; font-size: 2.5rem; margin-bottom: 8px; }
+    .tagline { text-align: center; color: #9ca3af; font-size: 1.2rem; margin-bottom: 40px; }
+    .controls { text-align: center; margin-bottom: 40px; }
+    select, input { padding: 14px 16px; font-size: 1.1rem; border-radius: 12px; background: #1f2937; border: 2px solid #4b5563; color: white; width: 320px; margin: 8px; }
+    button { padding: 14px 32px; font-size: 1.1rem; background: #6366f1; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; }
+    button:hover { background: #818cf8; }
+    .results { display: none; background: #1f2937; padding: 30px; border-radius: 16px; }
+    .results.visible { display: block; }
+    .idea { background: #374151; padding: 18px; margin: 16px 0; border-radius: 12px; position: relative; }
+    .copy-btn { position: absolute; top: 12px; right: 12px; padding: 6px 12px; background: #4b5563; border: none; color: white; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
+    .pro-cta { text-align: center; margin: 40px 0; padding: 28px; background: linear-gradient(135deg, #1e2937, #334155); border-radius: 16px; }
+    .pro-cta a { background: #22c55e; color: #0f172a; padding: 14px 36px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>DailyBoost</h1>
+    <p class="tagline">Fresh content ideas for your niche — every day, in seconds</p>
 
+    <div class="controls">
+      <select id="niche">
+        <option value="">Select a niche...</option>
+        <option value="Marketing">Marketing & Social Media</option>
+        <option value="Productivity">Productivity & Habits</option>
+        <option value="Fitness">Fitness & Health</option>
+        <option value="Parenting">Parenting</option>
+        <option value="Finance">Personal Finance</option>
+        <option value="Business">Small Business</option>
+      </select>
+      <input type="text" id="custom" placeholder="Or type your own niche...">
+      <br><br>
+      <button onclick="generateDailyBoost()">Generate Today's Boost</button>
+    </div>
+
+    <div id="results" class="results">
+      <h2 id="nicheTitle"></h2>
+      <div id="ideas"></div>
+      
+      <div class="pro-cta">
+        <p>Ready for unlimited daily boosts + more features?</p>
+        <a href="https://thadventure8.gumroad.com/l/dailyboost-pro" target="_blank">Get DailyBoost Pro →</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function generateDailyBoost() {
+      let niche = document.getElementById('niche').value;
+      if (!niche) niche = document.getElementById('custom').value || "Your Niche";
+
+      const container = document.getElementById('ideas');
+      container.innerHTML = '';
+
+      const sampleIdeas = [
+        `Strong opening hook for ${niche}: "The one thing most people get wrong about..."`,
+        `Quick actionable tip: Try this 5-minute habit that improves ${niche}...`,
+        `Thread idea: "I changed one thing in ${niche} and the results surprised me..."`,
+        `Value post idea: Before vs After transformation in ${niche}`,
+        `Engagement question: What's your biggest challenge with ${niche} right now?`
+      ];
+
+      sampleIdeas.forEach((idea) => {
+        const div = document.createElement('div');
+        div.className = 'idea';
+        div.innerHTML = `<p>${idea}</p><button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>`;
+        container.appendChild(div);
+      });
+
+      document.getElementById('nicheTitle').textContent = `Today's ${niche} Boost`;
+      document.getElementById('results').classList.add('visible');
+    }
+
+    function copyToClipboard(btn) {
+      const text = btn.parentElement.querySelector('p').textContent;
+      navigator.clipboard.writeText(text);
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = original, 1800);
+    }
+  </script>
+</body>
+</html>
