@@ -6,10 +6,32 @@
   <title>DailyBoost — Daily Content Ideas</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    [data-theme="dark"] {
+      --bg: #0a0a0f;
+      --bg-elevated: #12121a;
+      --bg-card: #16161f;
+      --bg-input: #1a1a26;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.16);
+      --text: #f0f0f5;
+      --text-muted: #8b8b9e;
+      --text-faint: #5c5c6e;
+      --accent: #7c5cff;
+      --accent-hover: #9278ff;
+      --accent-glow: rgba(124, 92, 255, 0.35);
+      --accent-soft: rgba(124, 92, 255, 0.12);
+    }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      background: #0a0a0f;
-      color: #f0f0f5;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
       min-height: 100vh;
       padding: 40px 20px;
     }
@@ -17,54 +39,52 @@
     h1 { 
       text-align: center; 
       font-size: 2.6rem; 
-      background: linear-gradient(90deg, #7c5cff, #a855f7); 
-      -webkit-background-clip: text; 
-      -webkit-text-fill-color: transparent; 
       margin-bottom: 8px; 
     }
-    .tagline { text-align: center; color: #8b8b9e; font-size: 1.2rem; margin-bottom: 40px; }
+    .tagline { text-align: center; color: var(--text-muted); font-size: 1.2rem; margin-bottom: 40px; }
     .controls { text-align: center; margin-bottom: 40px; }
     select, input { 
-      padding: 16px 20px; 
+      padding: 16px 24px; 
       font-size: 1.1rem; 
-      border-radius: 12px; 
-      background: #1a1a26; 
-      border: 2px solid #333; 
-      color: white; 
+      border-radius: var(--radius); 
+      background: var(--bg-input); 
+      border: 2px solid var(--border); 
+      color: var(--text); 
       width: 340px; 
       margin: 8px; 
     }
+    select:focus, input:focus { border-color: var(--accent); }
     button { 
       padding: 16px 36px; 
       font-size: 1.1rem; 
-      background: #7c5cff; 
+      background: var(--accent); 
       color: white; 
       border: none; 
-      border-radius: 12px; 
+      border-radius: var(--radius); 
       cursor: pointer; 
       font-weight: 600; 
       margin: 8px; 
     }
-    button:hover { background: #9278ff; transform: translateY(-1px); }
+    button:hover { background: var(--accent-hover); transform: translateY(-1px); }
     .results, .favorites-panel { 
-      background: #16161f; 
+      background: var(--bg-card); 
       padding: 32px; 
-      border-radius: 16px; 
-      box-shadow: 0 8px 32px rgba(0,0,0,0.45); 
+      border-radius: var(--radius); 
+      box-shadow: var(--shadow-sm); 
       margin-bottom: 30px; 
     }
     .idea { 
-      background: #1f1f2e; 
+      background: var(--bg-elevated); 
       padding: 20px; 
       margin: 16px 0; 
-      border-radius: 12px; 
+      border-radius: var(--radius); 
       position: relative; 
-      border-left: 4px solid #7c5cff; 
+      border-left: 4px solid var(--accent); 
     }
     .copy-btn, .fav-btn { 
       position: absolute; top: 14px; padding: 6px 14px; 
       background: #333; border: none; color: white; 
-      border-radius: 8px; cursor: pointer; font-size: 0.9rem; 
+      border-radius: var(--radius-sm); cursor: pointer; font-size: 0.9rem; 
     }
     .copy-btn { right: 70px; }
     .fav-btn { right: 14px; }
@@ -73,11 +93,11 @@
     .pro-cta { 
       text-align: center; margin: 30px 0; padding: 28px; 
       background: linear-gradient(135deg, #1a1a2e, #16213e); 
-      border-radius: 16px; 
+      border-radius: var(--radius); 
     }
     .pro-cta a { 
       background: #22c55e; color: #0f172a; padding: 14px 36px; 
-      border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.1rem; 
+      border-radius: var(--radius); text-decoration: none; font-weight: 700; font-size: 1.1rem; 
     }
   </style>
 </head>
@@ -105,7 +125,7 @@
     <div class="pro-cta">
       <p><strong>Ready for unlimited daily boosts + more features?</strong></p>
       <a href="https://thadventure8.gumroad.com/l/dailyboost-pro" target="_blank">Get DailyBoost Pro →</a>
-      <p style="margin-top: 16px;">Got a good idea? Expand it with <a href="https://thadwaugh-dev.github.io/content-spark-simple/" target="_blank" style="color: #7c5cff;">ContentSpark</a></p>
+      <p style="margin-top: 16px;">Got a good idea? Expand it with <a href="https://thadwaugh-dev.github.io/content-spark-simple/" target="_blank" style="color: var(--accent);">ContentSpark</a></p>
     </div>
 
     <div id="results" class="results">
