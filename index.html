@@ -1,8 +1,214 @@
-<div style="text-align: center; margin: 40px 0; padding: 24px; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; color: white;">
-  <p style="font-size: 1.1rem; margin-bottom: 16px;"><strong>Ready for unlimited generations?</strong></p>
-  <a href="https://thadventure8.gumroad.com/l/tfoikx" target="_blank" style="background: #22c55e; color: #0f172a; padding: 14px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; display: inline-block;">Get ContentSpark Pro →</a>
-  
-  <p style="margin-top: 20px; font-size: 0.95rem;">
-    Need fresh daily ideas first? Try <a href="https://dailyboost-xi.vercel.app/" target="_blank" style="color: #6366f1;">DailyBoost</a>
-  </p>
-</div>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DailyBoost — Daily Content Ideas</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #f0f0f5;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .app { max-width: 720px; margin: 0 auto; }
+    h1 { 
+      text-align: center; 
+      font-size: 2.6rem; 
+      background: linear-gradient(90deg, #7c5cff, #a855f7); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+      margin-bottom: 8px; 
+    }
+    .tagline { text-align: center; color: #8b8b9e; font-size: 1.2rem; margin-bottom: 40px; }
+    .controls { text-align: center; margin-bottom: 40px; }
+    select, input { 
+      padding: 16px 20px; 
+      font-size: 1.1rem; 
+      border-radius: 12px; 
+      background: #1a1a26; 
+      border: 2px solid #333; 
+      color: white; 
+      width: 340px; 
+      margin: 8px; 
+    }
+    button { 
+      padding: 16px 36px; 
+      font-size: 1.1rem; 
+      background: #7c5cff; 
+      color: white; 
+      border: none; 
+      border-radius: 12px; 
+      cursor: pointer; 
+      font-weight: 600; 
+      margin: 8px; 
+    }
+    button:hover { background: #9278ff; transform: translateY(-1px); }
+    .results, .favorites-panel { 
+      background: #16161f; 
+      padding: 32px; 
+      border-radius: 16px; 
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45); 
+      margin-bottom: 30px; 
+    }
+    .idea { 
+      background: #1f1f2e; 
+      padding: 20px; 
+      margin: 16px 0; 
+      border-radius: 12px; 
+      position: relative; 
+      border-left: 4px solid #7c5cff; 
+    }
+    .copy-btn, .fav-btn { 
+      position: absolute; top: 14px; padding: 6px 14px; 
+      background: #333; border: none; color: white; 
+      border-radius: 8px; cursor: pointer; font-size: 0.9rem; 
+    }
+    .copy-btn { right: 70px; }
+    .fav-btn { right: 14px; }
+    .fav-btn.favorited { color: #fbbf24; }
+    .copy-all { background: #22c55e; margin: 20px auto 30px; display: block; width: fit-content; }
+    .pro-cta { 
+      text-align: center; margin: 30px 0; padding: 28px; 
+      background: linear-gradient(135deg, #1a1a2e, #16213e); 
+      border-radius: 16px; 
+    }
+    .pro-cta a { 
+      background: #22c55e; color: #0f172a; padding: 14px 36px; 
+      border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1.1rem; 
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>DailyBoost</h1>
+    <p class="tagline">Fresh content ideas for your niche — every day, in seconds</p>
+
+    <div class="controls">
+      <select id="niche">
+        <option value="">Select a niche...</option>
+        <option value="Marketing">Marketing & Social Media</option>
+        <option value="Productivity">Productivity & Habits</option>
+        <option value="Fitness">Fitness & Health</option>
+        <option value="Parenting">Parenting</option>
+        <option value="Finance">Personal Finance</option>
+        <option value="Business">Small Business</option>
+        <option value="Cooking">Cooking & Recipes</option>
+      </select>
+      <input type="text" id="custom" placeholder="Or type your own niche...">
+      <br><br>
+      <button onclick="generateDailyBoost()">Generate Today's Boost</button>
+    </div>
+
+    <div class="pro-cta">
+      <p><strong>Ready for unlimited daily boosts + more features?</strong></p>
+      <a href="https://thadventure8.gumroad.com/l/dailyboost-pro" target="_blank">Get DailyBoost Pro →</a>
+      <p style="margin-top: 16px;">Got a good idea? Expand it with <a href="https://thadwaugh-dev.github.io/content-spark-simple/" target="_blank" style="color: #7c5cff;">ContentSpark</a></p>
+    </div>
+
+    <div id="results" class="results">
+      <h2 id="nicheTitle"></h2>
+      <button class="copy-btn copy-all" onclick="copyAll()">Copy All Ideas</button>
+      <div id="ideas"></div>
+    </div>
+
+    <div id="favoritesPanel" class="favorites-panel" style="display: none;">
+      <h2>Saved Favorites</h2>
+      <button onclick="clearFavorites()">Clear All Favorites</button>
+      <div id="favoritesList"></div>
+    </div>
+  </div>
+
+  <script>
+    let favorites = JSON.parse(localStorage.getItem('dailyboost-favorites') || '[]');
+
+    function saveFavorites() {
+      localStorage.setItem('dailyboost-favorites', JSON.stringify(favorites));
+      renderFavorites();
+    }
+
+    function generateDailyBoost() {
+      let niche = document.getElementById('niche').value;
+      if (!niche) niche = document.getElementById('custom').value || "Your Niche";
+
+      const container = document.getElementById('ideas');
+      container.innerHTML = '';
+
+      const sampleIdeas = [
+        `Strong hook for ${niche}: "The one thing most people get wrong about..."`,
+        `Quick tip: The 5-minute ${niche} habit that actually compounds...`,
+        `Thread idea: "I changed one thing in ${niche} this week and the results surprised me..."`,
+        `Value post idea: Before vs After transformation in ${niche}`,
+        `Engagement question: What's your biggest challenge with ${niche} right now?`,
+        `Hot take for ${niche}: "You don't need more tools — you need this mindset shift..."`,
+        `Weekend reminder for ${niche} people: Rest is part of the strategy...`
+      ];
+
+      sampleIdeas.forEach((idea) => {
+        const div = document.createElement('div');
+        div.className = 'idea';
+        div.innerHTML = `
+          <p>${idea}</p>
+          <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+          <button class="fav-btn" onclick="toggleFavorite(this, '${niche}', '${idea.replace(/'/g, "\\'")}')">☆</button>
+        `;
+        container.appendChild(div);
+      });
+
+      document.getElementById('nicheTitle').textContent = `Today's ${niche} Boost`;
+      document.getElementById('results').classList.add('visible');
+      document.getElementById('favoritesPanel').style.display = 'block';
+    }
+
+    function copyToClipboard(btn) {
+      const text = btn.parentElement.querySelector('p').textContent;
+      navigator.clipboard.writeText(text);
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = original, 1800);
+    }
+
+    function toggleFavorite(btn, niche, text) {
+      const index = favorites.findIndex(f => f.text === text);
+      if (index > -1) {
+        favorites.splice(index, 1);
+        btn.textContent = '☆';
+      } else {
+        favorites.push({niche, text, savedAt: Date.now()});
+        btn.textContent = '★';
+      }
+      saveFavorites();
+    }
+
+    function renderFavorites() {
+      const list = document.getElementById('favoritesList');
+      if (favorites.length === 0) {
+        list.innerHTML = '<p>No favorites yet. Star any idea to save it here.</p>';
+        return;
+      }
+      list.innerHTML = favorites.map(f => `
+        <div class="idea">
+          <p><strong>${f.niche}</strong><br>${f.text}</p>
+        </div>
+      `).join('');
+    }
+
+    function copyAll() {
+      const ideas = Array.from(document.querySelectorAll('.idea p')).map(p => p.textContent).join('\n\n---\n\n');
+      navigator.clipboard.writeText(ideas);
+      alert('All ideas copied!');
+    }
+
+    function clearFavorites() {
+      if (confirm('Clear all favorites?')) {
+        favorites = [];
+        saveFavorites();
+      }
+    }
+
+    renderFavorites();
+  </script>
+</body>
+</html>
