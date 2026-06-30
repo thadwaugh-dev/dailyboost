@@ -43,7 +43,6 @@
       <button onclick="generateDailyBoost()">Generate Today's Boost</button>
     </div>
 
-    <!-- Prominent Pro CTA - always visible -->
     <div class="pro-cta">
       <p><strong>Ready for unlimited daily boosts + more features?</strong></p>
       <a href="https://thadventure8.gumroad.com/l/dailyboost-pro" target="_blank">Get DailyBoost Pro →</a>
@@ -57,6 +56,8 @@
   </div>
 
   <script>
+    const dayOfWeek = new Date().toLocaleString('en-US', { weekday: 'long' });
+
     function generateDailyBoost() {
       let niche = document.getElementById('niche').value;
       if (!niche) niche = document.getElementById('custom').value || "Your Niche";
@@ -65,13 +66,13 @@
       container.innerHTML = '';
 
       const sampleIdeas = [
-        `Strong hook for ${niche}: "The one thing most people get wrong about..."`,
-        `Quick tip: The 5-minute ${niche} habit that actually compounds...`,
-        `Thread idea: "I changed one thing in ${niche} and the results surprised me..."`,
-        `Value post idea: Before vs After transformation in ${niche}`,
+        `${dayOfWeek} hook for ${niche}: "The one thing most people get wrong about..."`,
+        `Quick actionable tip: The ${dayOfWeek.toLowerCase()} ${niche} habit that actually compounds...`,
+        `Thread idea: "I changed one thing in ${niche} this week and the results surprised me..."`,
+        `Value post: Before vs After transformation story in ${niche}`,
         `Engagement question: What's your biggest challenge with ${niche} right now?`,
-        `Hot take for ${niche}: "You don't need more tools — you need this mindset shift..."`,
-        `Weekend reminder for ${niche} creators: Rest is part of the strategy...`
+        `Hot take for ${niche} creators: "You don't need more tools — you need this ${dayOfWeek.toLowerCase()} mindset shift..."`,
+        `Weekend reminder (if applicable): Rest is part of the ${niche} strategy...`
       ];
 
       sampleIdeas.forEach((idea) => {
@@ -81,7 +82,7 @@
         container.appendChild(div);
       });
 
-      document.getElementById('nicheTitle').textContent = `Today's ${niche} Boost`;
+      document.getElementById('nicheTitle').textContent = `Today's ${niche} Boost (${dayOfWeek})`;
       document.getElementById('results').classList.add('visible');
     }
 
